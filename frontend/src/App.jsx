@@ -9,6 +9,9 @@ import ChangePassword from "./pages/ChangePassword"
 import ProfilePage from "./pages/ProfilePage";
 import GroupBoards from './pages/GroupBoards';
 import GroupMembers from './pages/GroupMembers';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CreateGroup from './components/CreateGroup';
+
 
 export default function App() {
 
@@ -22,6 +25,8 @@ export default function App() {
         <Route path="/groups/:groupId/settings" element={<GroupSettings />} />
           <Route path="boards" element={<BoardsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/groups/create" element={<CreateGroup />} />
+
         </Route>
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/login" element={<LoginPage />} />

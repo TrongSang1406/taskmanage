@@ -1,19 +1,21 @@
 {
   "groups": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Nhóm Backend",
-      "boards": [],
-      "members": []
+      "boards": [
+      "groupId": 2,
+      ],
+      "members": [1,3]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Nhóm Frontend",
       "boards": [],
       "members": []
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Nhóm 1",
       "boards": [],
       "members": []
@@ -29,6 +31,42 @@
       "name": "nhóm 4",
       "members": [],
       "boards": []
+    },
+    {
+      "id": "5ccd",
+      "name": "nhom 6"
+    },
+    {
+      "id": "fea3",
+      "name": "nhóm 5",
+      "type": "nhóm làm về các chức năng",
+      "permission": "public",
+      "description": "tên tv+ gmail",
+      "admin": "current_user_id"
+    },
+    {
+      "id": "b117",
+      "name": "nhóm 10",
+      "type": "nhóm làm về các chức năng",
+      "permission": "public",
+      "description": "tên + gmail",
+      "admin": "current_user_id"
+    },
+    {
+      "id": "8b40",
+      "name": "nhóm 3",
+      "type": "nhóm làm về các chức năng",
+      "permission": "public",
+      "description": "123125",
+      "admin": "current_user_id"
+    },
+    {
+      "id": "cb45",
+      "name": "nhóm 7",
+      "type": "nhóm làm backend",
+      "permission": "public",
+      "description": "backend",
+      "admin": "current_user_id"
     }
   ]
 }

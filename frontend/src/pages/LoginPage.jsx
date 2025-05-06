@@ -60,7 +60,9 @@ const LoginPage = () => {
   const handleForgotPassword = () => {
     navigate('/forgot-password');
   };
-
+  const handleChangePassword = () => {
+    navigate('/change-password');
+  };
   return (
     <div className="login-container">
       <div className="login-left-panel">
@@ -144,6 +146,14 @@ const LoginPage = () => {
                 disabled={loading}
               >
                 Quên mật khẩu?
+              </button>
+              <button 
+                type="button"
+                className="change-password-link"
+                onClick={handleChangePassword}
+                disabled={loading}
+              >
+                Đổi mật khẩu
               </button>
             </div>
 

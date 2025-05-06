@@ -4,6 +4,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { FaPen, FaTrash, FaCheck } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom';
+
 
 const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
   const [groups, setGroups] = useState([]);
@@ -21,25 +23,28 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
       setGroups(response.data);
     } catch (error) {
       toast.error("Lỗi tải danh sách nhóm!");
-      console.error(error);
+      console.error("Lỗi tải danh sách nhóm:", error);
     }
   };
-
-  const handleCreateGroup = async () => {
-    if (!newGroupName.trim()) {
-      toast.warn("Tên nhóm không được để trống!");
-      return;
-    }
-    try {
-      await axios.post("http://localhost:3001/groups", { name: newGroupName });
-      setNewGroupName("");
-      fetchGroups();
-      toast.success("Tạo nhóm thành công!");
-    } catch (error) {
-      toast.error("Lỗi khi tạo nhóm!");
-      console.error(error);
-    }
+   const navigate = useNavigate();
+  const handleCreateGroup = () => {
+    navigate('/groups/create');
   };
+  // const handleCreateGroup = async () => {
+  //   if (!newGroupName.trim()) {
+  //     toast.warn("Tên nhóm không được để trống!");
+  //     return;
+  //   }
+  //   try {
+  //     await axios.post("http://localhost:3001/groups", { name: newGroupName });
+  //     setNewGroupName("");
+  //     fetchGroups();
+  //     toast.success("Tạo nhóm thành công!");
+  //   } catch (error) {
+  //     toast.error("Lỗi khi tạo nhóm!");
+  //     console.error("Lỗi tạo nhóm:", error);
+  //   }
+  // };
 
   const handleEditGroup = (group) => {
     setEditingGroupId(group.id);
@@ -52,43 +57,61 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
       return;
     }
     try {
-      await axios.patch(`http://localhost:3001/groups/${groupId}`, { name: editingGroupName });
+      await axios.patch(`http://localhost:3001/groups/${groupId}`, {
+        name: editingGroupName
+      });
       setEditingGroupId(null);
       setEditingGroupName("");
       fetchGroups();
       toast.success("Cập nhật nhóm thành công!");
     } catch (error) {
       toast.error("Lỗi khi cập nhật nhóm!");
-      console.error(error);
+      console.error("Lỗi cập nhật nhóm:", error);
     }
   };
 
   const handleDeleteGroup = async (groupId) => {
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa nhóm này và toàn bộ dữ liệu liên quan?"
+    );
+    if (!confirmDelete) return;
+
     try {
-      // Xóa boards liên quan
-      const boards = await axios.get(`http://localhost:3001/boards?groupId=${groupId}`);
-      for (const board of boards.data) {
+      // Xóa các bảng liên quan
+      const boardsRes = await axios.get(`http://localhost:3001/boards?groupId=${groupId}`);
+      for (const board of boardsRes.data) {
         await axios.delete(`http://localhost:3001/boards/${board.id}`);
       }
 
-      // Xóa members liên quan
-      const members = await axios.get(`http://localhost:3001/members?groupId=${groupId}`);
-      for (const member of members.data) {
+      // Xóa các thành viên liên quan
+      const membersRes = await axios.get(`http://localhost:3001/members?groupId=${groupId}`);
+      for (const member of membersRes.data) {
         await axios.delete(`http://localhost:3001/members/${member.id}`);
       }
 
-      // Xóa group
+      // Xóa nhóm
       await axios.delete(`http://localhost:3001/groups/${groupId}`);
       fetchGroups();
       toast.success("Xóa nhóm và dữ liệu liên quan thành công!");
     } catch (error) {
       toast.error("Lỗi khi xóa nhóm!");
-      console.error(error);
+      console.error("Lỗi khi xóa nhóm:", error);
     }
   };
 
   return (
-    <div style={{ width: "250px", height: "100vh", overflowY: "auto", backgroundColor: "#f8f9fa", padding: "10px", position: "fixed", left: 0, top: 0 }}>
+    <div
+      style={{
+        width: "250px",
+        height: "100vh",
+        overflowY: "auto",
+        backgroundColor: "#f8f9fa",
+        padding: "10px",
+        position: "fixed",
+        left: 0,
+        top: 0
+      }}
+    >
       <h5 className="text-center">Danh Sách Nhóm</h5>
 
       {groups.map((group) => (
@@ -101,7 +124,7 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
             borderRadius: "10px",
             marginBottom: "10px",
             backgroundColor: "#fff",
-            cursor: "pointer",
+            cursor: "pointer"
           }}
         >
           {editingGroupId === group.id ? (
@@ -124,7 +147,13 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
               </Button>
             </div>
           ) : (
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+            >
               <span>{group.name}</span>
               <div>
                 <Button
@@ -154,17 +183,20 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
           )}
         </div>
       ))}
-
-      <Form.Control
-        placeholder="Tên nhóm mới"
-        value={newGroupName}
-        onChange={(e) => setNewGroupName(e.target.value)}
-      />
       <Button className="w-100 mt-2" variant="primary" onClick={handleCreateGroup}>
         + Tạo nhóm
       </Button>
 
-      <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };

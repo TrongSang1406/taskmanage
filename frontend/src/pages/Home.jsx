@@ -3,11 +3,15 @@ import axios from "axios";
 import LeftSidebar from "../components/LeftSidebar";
 import GroupBoards from "./GroupBoards";
 import GroupMembers from "./GroupMembers";
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [view, setView] = useState("home");
+
+  const navigate = useNavigate();
 
   const fetchGroups = async () => {
     try {
@@ -19,6 +23,7 @@ const Home = () => {
     }
   };
 
+  
   useEffect(() => {
     fetchGroups();
   }, []);
@@ -32,12 +37,15 @@ const Home = () => {
     setSelectedGroup(group);
     setView("members");
   };
+  
 
   const handleBack = () => {
     setView("home");
     setSelectedGroup(null);
   };
-
+  const handleSettings = (group) => (
+    navigate('/groups/:groupId/settings')
+  );
   return (
     <div className="d-flex">
       <LeftSidebar reloadGroups={fetchGroups} />
@@ -65,7 +73,9 @@ const Home = () => {
                       >
                         Xem thành viên
                       </button>
-                      <button className="btn btn-warning w-100 my-2">Cài đặt nhóm</button>
+                      <button className="btn btn-warning w-100 my-2"
+                      onClick={() => handleSettings(group)}
+                      >Cài đặt nhóm</button>
                     </div>
                   </div>
                 </div>
