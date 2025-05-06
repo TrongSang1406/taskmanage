@@ -3,9 +3,7 @@
     {
       "id": "1",
       "name": "Nhóm Backend",
-      "boards": [
-      "groupId": 2,
-      ],
+      "boards": [],
       "members": [1,3]
     },
     {
