@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { FaPen, FaTrash, FaCheck } from "react-icons/fa";
-import "react-toastify/dist/ReactToastify.css";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 
@@ -187,16 +186,6 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
         + Tạo nhóm
       </Button>
 
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 };

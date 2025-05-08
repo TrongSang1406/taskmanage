@@ -6,6 +6,9 @@ const GroupItem = ({ group }) => {
   const handleViewBoards = () => {
     navigate(`/groups/${group.id}/boards`);
   };
+  const handleViewMembers = () => {
+    navigate(`/groups/${group.id}/members`);
+  };
 
   return (
     <button onClick={handleViewBoards}>Xem bảng</button>

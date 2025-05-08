@@ -2,6 +2,8 @@ import { Outlet, Link } from "react-router-dom";
 import TopMenu from "./TopMenu";
 import LeftSidebar from "./LeftSidebar";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Layout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -32,6 +34,16 @@ const Layout = () => {
         <p>© {new Date().getFullYear()} Quản Lý Công Việc. Tất cả quyền được bảo lưu.</p>
       </div>
     </footer>
+    <ToastContainer
+            position="bottom-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
   </div>
   )
 };

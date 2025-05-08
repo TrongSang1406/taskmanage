@@ -1,61 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const MemberList = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [group, setGroup] = useState(null);
-  const [newMember, setNewMember] = useState("");
-
-  const fetchGroup = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3001/groups/${id}`);
-      setGroup(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleAddMember = async () => {
-    if (!newMember.trim()) return toast.error("Email không được để trống");
-    try {
-      await axios.patch(`http://localhost:3001/groups/${id}`, {
-        members: [...group.members, newMember]
-      });
-      toast.success("Thêm thành viên thành công");
-      setNewMember("");
-      fetchGroup();
-    } catch (error) {
-      toast.error("Thêm thành viên thất bại");
-    }
-  };
+export default function GroupMember() {
+  const { groupId } = useParams();
+  const [members, setMembers] = useState([]);
+  const [groupName, setGroupName] = useState("");
 
   useEffect(() => {
-    fetchGroup();
-  }, []);
+    const fetchData = async () => {
+      try {
+        // Lấy thông tin nhóm
+        const groupRes = await axios.get(`http://localhost:3001/groups/${groupId}`);
+        setGroupName(groupRes.data.name);
 
-  if (!group) return <div>Đang tải...</div>;
+        // Lấy danh sách thành viên
+        const membersRes = await axios.get(`http://localhost:3001/members?groupId=${groupId}`);
+        setMembers(membersRes.data);
+      } catch (error) {
+        console.error("Lỗi khi tải thành viên:", error);
+        toast.error("Không thể tải danh sách thành viên.");
+      }
+    };
+
+    fetchData();
+  }, [groupId]);
 
   return (
     <div className="container mt-4">
-      <h2>Thành viên của {group.name}</h2>
-      <input
-        className="form-control mb-2"
-        placeholder="Email thành viên mới"
-        value={newMember}
-        onChange={(e) => setNewMember(e.target.value)}
-      />
-      <button className="btn btn-success mb-3" onClick={handleAddMember}>Thêm thành viên</button>
-      <ul className="list-group">
-        {group.members.sort().map((member, index) => (
-          <li key={index} className="list-group-item">{member}</li>
-        ))}
-      </ul>
-      <button className="btn btn-secondary mt-3" onClick={() => navigate("/")}>Quay lại Trang chủ</button>
+      <h3>Thành viên của nhóm: <strong>{groupName}</strong></h3>
+      {members.length === 0 ? (
+        <p>Không có thành viên nào trong nhóm này.</p>
+      ) : (
+        <ul className="list-group mt-3">
+          {members.map((member) => (
+            <li key={member.id} className="list-group-item d-flex justify-content-between align-items-center">
+              {member.name}
+              <span className="badge bg-primary rounded-pill">{member.role}</span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
-};
-
-export default MemberList;
+}
