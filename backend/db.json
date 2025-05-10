@@ -1,29 +1,14 @@
 {
   "groups": [
     {
-      "id": "1",
-      "name": "Nhóm 2",
-      "type": "Dự án",
-      "permission": "Công khai",
-      "description": "Nhóm công việc đầu tiên",
-      "ownerId": 1
+      "id": "abbc",
+      "name": "Nhóm 3 ",
+      "type": "frontend",
+      "permission": "public",
+      "description": "Sửa giao diện",
+      "admin": "current_user_id"
     }
   ],
-  "members": [
-    {
-      "id": "1",
-      "groupId": 1,
-      "userId": 1,
-      "name": "Nguyễn Văn A",
-      "role": "Quản trị"
-    }
-  ],
-  "boards": [
-    {
-      "id": "1",
-      "groupId": 1,
-      "name": "Bảng 1",
-      "color": "primary"
-    }
-  ]
+  "members": [],
+  "boards": []
 }

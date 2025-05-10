@@ -5,12 +5,12 @@ import { FaPen, FaTrash, FaCheck } from "react-icons/fa";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 
-
 const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
   const [groups, setGroups] = useState([]);
   const [newGroupName, setNewGroupName] = useState("");
   const [editingGroupId, setEditingGroupId] = useState(null);
   const [editingGroupName, setEditingGroupName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchGroups();
@@ -25,25 +25,10 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
       console.error("Lỗi tải danh sách nhóm:", error);
     }
   };
-   const navigate = useNavigate();
+
   const handleCreateGroup = () => {
     navigate('/groups/create');
   };
-  // const handleCreateGroup = async () => {
-  //   if (!newGroupName.trim()) {
-  //     toast.warn("Tên nhóm không được để trống!");
-  //     return;
-  //   }
-  //   try {
-  //     await axios.post("http://localhost:3001/groups", { name: newGroupName });
-  //     setNewGroupName("");
-  //     fetchGroups();
-  //     toast.success("Tạo nhóm thành công!");
-  //   } catch (error) {
-  //     toast.error("Lỗi khi tạo nhóm!");
-  //     console.error("Lỗi tạo nhóm:", error);
-  //   }
-  // };
 
   const handleEditGroup = (group) => {
     setEditingGroupId(group.id);
@@ -76,19 +61,16 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
     if (!confirmDelete) return;
 
     try {
-      // Xóa các bảng liên quan
       const boardsRes = await axios.get(`http://localhost:3001/boards?groupId=${groupId}`);
       for (const board of boardsRes.data) {
         await axios.delete(`http://localhost:3001/boards/${board.id}`);
       }
 
-      // Xóa các thành viên liên quan
       const membersRes = await axios.get(`http://localhost:3001/members?groupId=${groupId}`);
       for (const member of membersRes.data) {
         await axios.delete(`http://localhost:3001/members/${member.id}`);
       }
 
-      // Xóa nhóm
       await axios.delete(`http://localhost:3001/groups/${groupId}`);
       fetchGroups();
       toast.success("Xóa nhóm và dữ liệu liên quan thành công!");
@@ -108,7 +90,8 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
         padding: "10px",
         position: "fixed",
         left: 0,
-        top: 0
+        top: "56px", // đẩy xuống dưới TopMenu
+        zIndex: 1000 // đảm bảo hiển thị đúng lớp
       }}
     >
       <h5 className="text-center">Danh Sách Nhóm</h5>
@@ -185,7 +168,6 @@ const LeftSidebar = ({ onGroupSelect, selectedGroupId }) => {
       <Button className="w-100 mt-2" variant="primary" onClick={handleCreateGroup}>
         + Tạo nhóm
       </Button>
-
     </div>
   );
 };

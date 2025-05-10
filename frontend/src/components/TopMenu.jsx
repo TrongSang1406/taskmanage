@@ -24,7 +24,12 @@ export default function TopMenu({ toggleSidebar }) {
     <Navbar bg="dark" variant="dark" expand="md" sticky="top" className="shadow">
       <div className="container-fluid">
         <Navbar.Brand as={Link} to="/">
-          Quản Lý Công Việc
+          <img
+            src="/public/logo.png"
+            alt="Quản Lý Công Việc"
+            height="40"
+            className="d-inline-block align-top"
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="topmenu-navbar-nav" />
         <Navbar.Collapse id="topmenu-navbar-nav">
