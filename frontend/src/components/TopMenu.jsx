@@ -21,13 +21,20 @@ export default function TopMenu({ toggleSidebar }) {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="md" sticky="top" className="shadow">
+    <Navbar
+      bg="dark"
+      variant="dark"
+      expand="md"
+      sticky="top"
+      className="shadow"
+      style={{ height: "56px", zIndex: 1040 }} // 👈 đảm bảo chiều cao và nằm trên sidebar
+    >
       <div className="container-fluid">
         <Navbar.Brand as={Link} to="/">
           <img
             src="/public/logo.png"
             alt="Quản Lý Công Việc"
-            height="40"
+            height="50" // hoặc điều chỉnh lại tùy ý bạn
             className="d-inline-block align-top"
           />
         </Navbar.Brand>
