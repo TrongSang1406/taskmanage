@@ -19,12 +19,14 @@ export default function ProfilePage() {
       setFormData({
         email: currentUser.email || '',
         gender: currentUser.gender || '',
-        fullName: currentUser.fullName || '',
+        fullName: currentUser.fullName || currentUser.name || '',
         phone: currentUser.phone || '',
         birthday: currentUser.birthday || ''
       });
+    } else {
+      navigate('/login'); // Nếu chưa đăng nhập, chuyển hướng
     }
-  }, []);
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -20,9 +20,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-        <Route path="/groups/:groupId/boards" element={<GroupBoards />} />
-        <Route path="/groups/:groupId/members" element={<GroupMembers />} />
-        <Route path="/groups/:groupId/settings" element={<GroupSettings />} />
+          <Route path="/groups/:groupId/boards" element={<GroupBoards />} />
+          <Route path="/groups/:groupId/members" element={<GroupMembers />} />
+          <Route path="/groups/:groupId/settings" element={<GroupSettings />} />
           <Route path="boards" element={<BoardsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/groups/create" element={<CreateGroup />} />

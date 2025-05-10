@@ -23,9 +23,6 @@ export default function TopMenu({ toggleSidebar }) {
   return (
     <Navbar bg="dark" variant="dark" expand="md" sticky="top" className="shadow">
       <div className="container-fluid">
-        <Button variant="outline-light" className="me-2" onClick={toggleSidebar}>
-          ☰
-        </Button>
         <Navbar.Brand as={Link} to="/">
           Quản Lý Công Việc
         </Navbar.Brand>
@@ -45,7 +42,7 @@ export default function TopMenu({ toggleSidebar }) {
             {user ? (
               <Dropdown align="end">
                 <Dropdown.Toggle variant="info" id="dropdown-user">
-                  {user.name}
+                  {user.fullName || user.name || user.email}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item onClick={() => navigate("/profile")}>Hồ sơ cá nhân</Dropdown.Item>
